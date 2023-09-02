@@ -7,6 +7,7 @@
 exports.up = function(knex) {
     return knex.schema.createTable('users', (table) => {
         table.uuid('user_id').primary();
+        table.string('password').notNullable();
         table.string('email_address').notNullable();
         table.string('phone_number').notNullable();
         table.date('birthdate').notNullable();
@@ -18,9 +19,9 @@ exports.up = function(knex) {
         table.string('city').notNullable();
         table.string('state').notNullable();
         table.string('country').notNullable();
-        table.timestamp('created_on').notNullable();
-        table.timestamp('updated_on').notNullable();
-        // table.timestamps(true, true);
+        table.timestamp('created_on').defaultTo(knex.fn.now()).notNullable();
+        table.timestamp('updated_on').defaultTo(knex.fn.now()).notNullable();
+        table.timestamps(true, true);
       });
 };
 
