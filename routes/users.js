@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt")
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken')
-
+const auth =require('../controllers/auth.js')
 
 async function hashPassword(req,res){
     const password = req.body.password
@@ -65,11 +65,15 @@ function validateUser(hash, data, res) {
       })
       .catch((err) => {
         console.error('error msg:',err.message) 
-        return false}) 
+        res.send('error msg:',err.message)
+    }) 
 }
 
 // POST signup
 router.route('/signup')
+    .get((req,res)=>{
+        res.send('POST to signup')
+    })
     .post((req,res)=>{
         hashPassword(req,res)
 
@@ -93,7 +97,7 @@ router.route('/login')
             .compare(req.body.password, response.password) 
             .then((response)=>{
                 if(response) { 
-                    let token = jwt.sign({username:req.body.username},'secretkey')    
+                    let token = jwt.sign({username:req.body.username},'my_secretkey')    
                     res.json({
                     token: token
                     })
@@ -127,11 +131,10 @@ router.route('/login')
 router.route('/profile')
     .get((req,res)=>{
         // Request Header: { headers: { Authorization: Bearer ${YOUR_TOKEN_HERE}; } }
-        req.headers.Authorization
-        res.json({
-            iat: Date.now(),   // Time when token was created
-            name: req.params.name
-          })
+        auth.verifyJWT(req,res)
+        // res.json({
+        //     iat: Date.now()  // Time when token was created
+        //   })
     })
 
 module.exports = router;
