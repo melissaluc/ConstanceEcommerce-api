@@ -128,6 +128,14 @@ router.route('/login')
 
 
 
+router.route('/order-history')
+    .get((req,res)=>{
+        // Request Header: { headers: { Authorization: Bearer ${YOUR_TOKEN_HERE}; } }
+        auth.verifyJWT(req,res)
+        // res.json({
+        //     iat: Date.now()  // Time when token was created
+        //   })
+    })
 router.route('/profile')
     .get((req,res)=>{
         // Request Header: { headers: { Authorization: Bearer ${YOUR_TOKEN_HERE}; } }
@@ -136,5 +144,13 @@ router.route('/profile')
         //     iat: Date.now()  // Time when token was created
         //   })
     })
+// router.route('/profile')
+//     .get((req,res)=>{
+//         // Request Header: { headers: { Authorization: Bearer ${YOUR_TOKEN_HERE}; } }
+//         auth.verifyJWT(req,res)
+//         // res.json({
+//         //     iat: Date.now()  // Time when token was created
+//         //   })
+//     })
 
 module.exports = router;
