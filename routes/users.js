@@ -84,20 +84,20 @@ router.route('/signup')
 // POST login
 router.route('/login')
     .post((req,res)=>{
-
+        console.log(req)
 
         knex
         .from("users")
-        .andWhere({email_address:req.body.email_address})
+        .andWhere({email_address:req.body.headers.email_address})
         .first()
         .then((response)=>{
             console.log(response.password)
             
              bcrypt
-            .compare(req.body.password, response.password) 
+            .compare(req.body.headers.password, response.password) 
             .then((response)=>{
                 if(response) { 
-                    let token = jwt.sign({username:req.body.username},'my_secretkey')    
+                    let token = jwt.sign({username:req.body.headers.email_address},'my_secretkey')    
                     res.json({
                     token: token
                     })
@@ -115,7 +115,7 @@ router.route('/login')
         console.log(err)
         const error_msg = 'error'
 
-        res.json({
+        res.status(404).json({
             error: {
                 message: error_msg
             }
