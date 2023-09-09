@@ -9,10 +9,10 @@ exports.up = function(knex) {
         table.uuid('order_id').primary();
         table.string('order_no').notNullable();
         table.string('user_id').notNullable();
-        table.string('product_id').notNullable();
+        table.string('product_uid').notNullable();
         table.integer('quantity').notNullable();
-        table.timestamp('created_on').notNullable();
-        table.timestamp('updated_on').notNullable();
+        table.timestamp('created_on').defaultTo(knex.fn.now()).notNullable();
+        table.timestamp('updated_on').defaultTo(knex.fn.now()).notNullable();
         // table.timestamps(true, true);
       });
 };

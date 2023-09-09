@@ -26,22 +26,25 @@ router.route("/")
     .post((req,res)=>{
         // SEND USER_ID, PRODUCT_ID, AND QUANTITIY
         // req.body
-        req.body.orders.map((item)=>{
+        // console.log('req  ',req.body)
+        const items = req.body
+        items.map((item)=>{
 
             knex("orders")
             .insert({
                 order_id:uuidv4(),
-                order_no:req.body.order_no,
-                user_id:req.body.user_id,
-                product_id:item.product_id,
+                order_no:item.order_no,
+                user_id:item.user_id,
+                product_uid:item.product_uid,
                 quantity: item.quantity,
-                created_on:Date.now(),
-                updated_on:Date.now()
+                created_on:new Date(),
+                updated_on:new Date()
             })
-
-            knex("product_inventory")
-            .where('','=',item.product_id)
-            .decrement('units_instock',item.quantity)
+            .then((response)=>{
+                res.status(200).send({success:true})
+           
+            })
+            .catch((err)=>{console.log(err)})
         })
     })
     .put((req,res)=>{

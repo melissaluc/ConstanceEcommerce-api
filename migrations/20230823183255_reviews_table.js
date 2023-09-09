@@ -20,7 +20,7 @@ exports.up = function(knex) {
         table.uuid('product_id').primary();
         table.string('user_id').notNullable();
         table.text('review').notNullable();
-        table.double('rating', 2).notNullable();
+        table.double('rating').defaultTo(0);
         table.timestamp('created_on').notNullable();
         table.timestamp('updated_on').notNullable();
         // table.timestamps(true, true);

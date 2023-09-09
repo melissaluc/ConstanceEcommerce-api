@@ -88,19 +88,24 @@ router.route('/login')
 
         knex
         .from("users")
-        .andWhere({email_address:req.body.headers.email_address})
+        .where("email_address","=",req.body.headers.email_address)
         .first()
-        .then((response)=>{
-            console.log(response.password)
+        .then((data)=>{
+            console.log(data.password)
             
              bcrypt
-            .compare(req.body.headers.password, response.password) 
+            .compare(req.body.headers.password, data.password) 
             .then((response)=>{
+                console.log('data',data)
                 if(response) { 
                     let token = jwt.sign({username:req.body.headers.email_address},'my_secretkey')    
-                    res.json({
-                    token: token
+                    res.status(200).json({
+                    token: token,
+                    user_id: data.user_id,
+                    first_name: data.first_name,
+                    last_name: data.last_name
                     })
+            
                 }
                 else {
                     res.json({
@@ -138,19 +143,21 @@ router.route('/order-history')
     })
 router.route('/profile')
     .get((req,res)=>{
+        knex
+        .from('users')
+        .where("email_address","=",req.body.email_address)
+        .then((data)=>{
+            res.status(200).send(data.user_id)
+        }
+        )
+        .catch((err)=>{console.log(err)})
+
         // Request Header: { headers: { Authorization: Bearer ${YOUR_TOKEN_HERE}; } }
         auth.verifyJWT(req,res)
         // res.json({
         //     iat: Date.now()  // Time when token was created
         //   })
     })
-// router.route('/profile')
-//     .get((req,res)=>{
-//         // Request Header: { headers: { Authorization: Bearer ${YOUR_TOKEN_HERE}; } }
-//         auth.verifyJWT(req,res)
-//         // res.json({
-//         //     iat: Date.now()  // Time when token was created
-//         //   })
-//     })
+
 
 module.exports = router;

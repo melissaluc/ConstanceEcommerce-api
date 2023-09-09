@@ -14,8 +14,38 @@ const { v4: uuidv4 } = require('uuid');
 
 router.route("/")
     .get((req, res)=>{
-        knex
+
+
+        const query = knex
+        .select(
+            "products.product_name",
+            "products.product_id",
+            "products.description",
+            "products.category_1",
+            "products.category_2",
+            "products.category_3",
+            "product_inventory.colour",
+            "product_inventory.product_uid",
+            "product_inventory.size",
+            "product_inventory.materials",
+            "product_inventory.units_instock",
+            "product_inventory.price",
+            "product_inventory.updated_on"
+        )
         .from("product_inventory")
+        .join("products","product_inventory.product_name", "=", "products.product_name")
+        .where("products.status","=","active")
+
+
+        // convert query object to where clause
+        for (const key in req.query) {
+            if (req.query.hasOwnProperty(key)) {
+                // Add a condition for each property in req.query
+                query.where(key,"=", req.query[key]);
+            }
+        }
+
+        query
         .then((data)=>{
             res.json(data)
         })
@@ -26,7 +56,7 @@ router.route("/")
     
 //  Return products for the gallery
 router.route("/products").get((req, res) => {
-    knex
+    const query= knex
         .select(
         "products.product_name",
         "products.product_id",
@@ -39,7 +69,7 @@ router.route("/products").get((req, res) => {
         knex.raw('MIN(product_inventory.units_instock) as min_units')
         ) // Include max_price in the SELECT clause
         .from("products")
-        .join("product_inventory", function () {
+        .innerJoin("product_inventory", function () {
         this.on("product_inventory.product_name", "=", "products.product_name");
         })
         .groupBy(
@@ -50,7 +80,35 @@ router.route("/products").get((req, res) => {
         "products.category_2",
         "products.category_3"
         )
-        .where(req.query)
+        .where('products.status','=','active')
+
+        
+        // convert query object to where clause
+        for (const key in req.query) {
+            if (req.query.hasOwnProperty(key)) {
+                // Add a condition for each property in req.query
+                query.where(key,"=", req.query[key]);
+            }
+        }
+
+        query
+
+        query
+        .then((data) => {
+        res.json(data);
+        })
+        .catch((error) => {
+        console.log(error);
+        res.status(500).json({ error: 'An error occurred.' });
+        });
+    });
+
+
+//  Search all db for products
+router.route("/product_in").get((req, res) => {
+    knex
+        .from("products")
+        .join("product_inventory", "product_inventory.product_name", "=", "products.product_name")
         .where('products.status','=','active')
         .then((data) => {
         res.json(data);
@@ -60,6 +118,8 @@ router.route("/products").get((req, res) => {
         res.status(500).json({ error: 'An error occurred.' });
         });
     });
+
+
 
 
 
