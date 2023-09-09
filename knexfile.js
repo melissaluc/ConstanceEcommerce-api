@@ -2,7 +2,7 @@
 require('dotenv').config()
 
 module.exports = {
-    client: "mysql",
+    client: "pg",
     connection: {
         host:process.env.DB_HOST,
         port: 3306,

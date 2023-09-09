@@ -26,6 +26,7 @@
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "passport-google-oidc": "^0.1.0",
+    "pg": "^8.11.3",
     "uuidv4": "^6.2.13"
   }
 }
