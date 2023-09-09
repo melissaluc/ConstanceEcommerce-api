@@ -37,6 +37,10 @@ app.use('/api/v1/users', usersRouter);
 
 app.listen(port, ()=>console.log(`server running at ${host}`))
 
+app.get("/",(req,res)=>{
+    res.status(200).send('constance_luxury_db')
+})
+
 
 function logger(req, res, next) {
     console.log(req.originalUrl)
