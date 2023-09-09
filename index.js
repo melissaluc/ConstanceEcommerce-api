@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const port = process.env.PORT || 8080; 
-
+const host = process.env.DB_HOST
 //  routes
 // write to users
 // write to orders
@@ -35,7 +35,7 @@ app.use('/api/v1/reviews', reviewsRouter);
 const usersRouter = require('./routes/users');
 app.use('/api/v1/users', usersRouter);
 
-app.listen(port, ()=>console.log(`server running at http://localhost:${port}`))
+app.listen(port, ()=>console.log(`server running at ${host}`))
 
 
 function logger(req, res, next) {
