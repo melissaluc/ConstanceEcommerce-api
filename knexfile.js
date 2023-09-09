@@ -14,12 +14,12 @@ module.exports = {
         // connectionString: process.env.DB_URL
 
     },
-    migrations: {
-      directory: './migrations',
-    },
-    seeds: {
-      directory: './seeds',
-    },
+    // migrations: {
+    //   directory: './migrations',
+    // },
+    // seeds: {
+    //   directory: './seeds',
+    // },
 };
 
 console.log(process.env.DB_LOCAL_USER)
