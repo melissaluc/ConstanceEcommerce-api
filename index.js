@@ -35,7 +35,7 @@ app.use('/api/v1/reviews', reviewsRouter);
 const usersRouter = require('./routes/users');
 app.use('/api/v1/users', usersRouter);
 
-app.listen(port, ()=>console.log(`server running at ${host}`))
+app.listen(port, ()=>console.log(`server running at Host:${host} port: ${port}`))
 
 app.get("/",(req,res)=>{
     res.status(200).send('constance_luxury_db')

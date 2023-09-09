@@ -22,7 +22,6 @@
     "knex": "^2.5.1",
     "lodash": "^4.17.21",
     "mysql": "^2.18.1",
-    "mysql2": "^3.6.0",
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "passport-google-oidc": "^0.1.0",
