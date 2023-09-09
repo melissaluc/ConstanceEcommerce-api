@@ -5,7 +5,8 @@ module.exports = {
     client: "pg",
     version: '15.0',
     connection: {
-        server:process.env.DB_HOST,
+        // host:process.env.DB_HOST,
+        server:process.env.DB_SERVER,
         port: 3306,
         user: process.env.DB_LOCAL_USER,
         password: process.env.DB_LOCAL_PASSWORD,
