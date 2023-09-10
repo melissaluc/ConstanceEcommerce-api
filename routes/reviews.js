@@ -46,7 +46,7 @@ router.route("/")
     })
     .post((req,res)=>{
         const {user_id, product_id, review, rating} = req.body
-
+        console.log('debug:',req.body)
         knex('reviews')
         .insert({
             // user_id:uuidv4(),
@@ -57,7 +57,7 @@ router.route("/")
             created_on:new Date(),
             updated_on:new Date()
         })
-        .then(()=>{
+        .then((data)=>{
             res.status(200).json({success:true})
         })
         .catch((err)=>{console.log(err)})
