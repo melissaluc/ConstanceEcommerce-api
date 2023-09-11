@@ -17,7 +17,8 @@
 
 exports.up = function(knex) {
     return knex.schema.createTable('reviews', (table) => {
-        table.uuid('product_id').primary();
+        table.uuid('review_id').primary();
+        table.uuid('product_id').notNullable();
         table.string('user_id').notNullable();
         table.text('review').notNullable();
         table.double('rating').defaultTo(0);

@@ -40,6 +40,7 @@ router.route("/")
 
         query
         .then((data)=>{
+            coneols.log(data)
             res.status(200).json(data)
         })
         .catch((err)=>{console.log(err)})
