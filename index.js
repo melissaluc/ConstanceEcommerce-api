@@ -28,7 +28,7 @@ app.use('/api/v1/product_inventory', productInventoryRouter);
 
 const ordersRouter = require('./routes/orders');
 app.use('/api/v1/orders', ordersRouter);
-s
+
 const reviewsRouter = require('./routes/reviews.js');
 app.use('/api/v1/reviews', reviewsRouter);
 
